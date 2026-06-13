@@ -1,0 +1,92 @@
+.tech-stack-container {
+  width: 100%;
+  padding: 3rem 0;
+  background-color: var(--bg-primary);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  overflow: hidden;
+  position: relative;
+}
+
+.tech-stack-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.tech-stack-header p {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.marquee-wrapper {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Gradient masks for smooth fade in/out on edges */
+.marquee-wrapper::before,
+.marquee-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marquee-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-primary), transparent);
+}
+
+.marquee-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-primary), transparent);
+}
+
+.marquee-content {
+  display: flex;
+  gap: 2rem;
+  animation: scroll 30s linear infinite;
+  padding: 0 1rem;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+.tech-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tech-icon {
+  font-size: 1.25rem;
+}
+
+.tech-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Translate left by 50% of the flex container (since we duplicated the items) minus the gap */
+    transform: translateX(calc(-50% - 1rem));
+  }
+}
