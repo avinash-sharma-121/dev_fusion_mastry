@@ -5,6 +5,8 @@ import TechStack from './components/TechStack';
 import VideoSection from './components/VideoSection';
 import PlaylistsSection from './components/PlaylistsSection';
 import ProjectsSection from './components/ProjectsSection';
+import Testimonials from './components/Testimonials';
+import Community from './components/Community';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 
@@ -18,6 +20,8 @@ function App() {
         <VideoSection />
         <PlaylistsSection />
         <ProjectsSection />
+        <Testimonials />
+        <Community />
         <ContactForm />
       </main>
       <Footer />

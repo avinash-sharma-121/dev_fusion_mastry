@@ -27,32 +27,57 @@ const VideoSection = () => {
           <div className="loading-state">Loading videos...</div>
         ) : (
           <div className="video-grid">
-            {videos.map((video) => (
-              <a 
-                href={`https://www.youtube.com/watch?v=${video.id.videoId}`} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                key={video.id.videoId}
-                className="video-card glass-card"
-              >
-                <div className="video-thumbnail-container">
-                  <img 
-                    src={video.snippet.thumbnails.medium.url} 
-                    alt={video.snippet.title} 
-                    className="video-thumbnail"
-                  />
-                  <div className="play-button-overlay">
-                    <div className="play-icon">▶</div>
+            {videos.map((video, index) => {
+              if (index === 0 || index === 1) {
+                return (
+                  <div key={video.id.videoId} className="video-card glass-card">
+                    <div className="video-thumbnail-container">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${video.id.videoId}`}
+                        title={video.snippet.title}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="video-iframe"
+                      ></iframe>
+                    </div>
+                    <div className="video-info">
+                      <h3 className="video-title">{video.snippet.title}</h3>
+                      <p className="video-description">
+                        {video.snippet.description.substring(0, 100)}...
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="video-info">
-                  <h3 className="video-title">{video.snippet.title}</h3>
-                  <p className="video-description">
-                    {video.snippet.description.substring(0, 100)}...
-                  </p>
-                </div>
-              </a>
-            ))}
+                );
+              }
+
+              return (
+                <a 
+                  href={`https://www.youtube.com/watch?v=${video.id.videoId}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  key={video.id.videoId}
+                  className="video-card glass-card"
+                >
+                  <div className="video-thumbnail-container">
+                    <img 
+                      src={video.snippet.thumbnails.medium.url} 
+                      alt={video.snippet.title} 
+                      className="video-thumbnail"
+                    />
+                    <div className="play-button-overlay">
+                      <div className="play-icon">▶</div>
+                    </div>
+                  </div>
+                  <div className="video-info">
+                    <h3 className="video-title">{video.snippet.title}</h3>
+                    <p className="video-description">
+                      {video.snippet.description.substring(0, 100)}...
+                    </p>
+                  </div>
+                </a>
+              );
+            })}
           </div>
         )}
         <div className="section-footer">

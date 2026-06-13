@@ -26,6 +26,14 @@ const MOCK_VIDEOS = [
       description: 'AWS Interview Questions & Answers – Part 4 | AWS Compute Series',
       thumbnails: { medium: { url: 'https://i1.ytimg.com/vi/HtLZZ4BHXgk/hqdefault.jpg' } }
     }
+  },
+  {
+    id: { videoId: 'dummy4' },
+    snippet: {
+      title: 'Kubernetes for Beginners',
+      description: 'Learn Kubernetes from scratch in this comprehensive tutorial.',
+      thumbnails: { medium: { url: 'https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80' } }
+    }
   }
 ];
 
@@ -51,10 +59,16 @@ const MOCK_PLAYLISTS = [
 export const fetchLatestVideos = async () => {
   if (API_KEY) {
     try {
-      const response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=3`);
+      const response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=15`);
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
-      return data.items.filter(item => item.id.kind === 'youtube#video');
+      
+      const filtered = data.items.filter(item => {
+        const title = item.snippet.title.toLowerCase();
+        const desc = item.snippet.description.toLowerCase();
+        return item.id.kind === 'youtube#video' && !title.includes('#short') && !desc.includes('#short');
+      });
+      return filtered.slice(0, 4);
     } catch (error) {
       console.error('Error fetching from YouTube API:', error);
     }
@@ -68,7 +82,13 @@ export const fetchLatestVideos = async () => {
     const data = await response.json();
 
     if (data.status === 'ok' && data.items) {
-      return data.items.slice(0, 3).map(item => ({
+      const filteredRss = data.items.filter(item => {
+        const title = item.title.toLowerCase();
+        const desc = (item.description || '').toLowerCase();
+        return !title.includes('#short') && !desc.includes('#short');
+      });
+
+      return filteredRss.slice(0, 4).map(item => ({
         id: { videoId: item.guid.split(':')[2] },
         snippet: {
           title: item.title,

@@ -22,8 +22,8 @@ const Hero = () => {
         <div className="blob blob-2"></div>
       </div>
       <div className="container hero-content animate-fade-in">
-        <h1 className="hero-title">
-          Master Modern Development with <br/>
+        <h1 className="hero-title animate-fade-in" style={{ animationDelay: '0.1s' }}>
+          Master Cloud & DevOps with <br/>
           <span className="text-gradient">DevFusion Mastery</span>
         </h1>
         <p className="hero-subtitle">

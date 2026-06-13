@@ -25,7 +25,8 @@ const Header = () => {
             <li><a href="#videos" className="nav-link">Videos</a></li>
             <li><a href="#playlists" className="nav-link">Playlists</a></li>
             <li><a href="#projects" className="nav-link">Projects</a></li>
-            <li><a href="#contact" className="nav-link">Contact</a></li>
+            <li><a href="#testimonials" className="nav-link">Testimonials</a></li>
+            <li><a href="#community" className="nav-link">Community</a></li>
             <li><ThemeToggle /></li>
           </ul>
         </nav>
