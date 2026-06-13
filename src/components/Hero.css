@@ -57,7 +57,7 @@
 }
 
 .hero-title {
-  font-size: clamp(3rem, 5vw, 5rem);
+  font-size: clamp(2.5rem, 5vw, 5rem);
   letter-spacing: -1px;
   margin-bottom: 1.5rem;
 }

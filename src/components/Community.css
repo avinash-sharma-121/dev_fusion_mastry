@@ -116,6 +116,7 @@
     grid-template-columns: 1fr;
     padding: 3rem 2rem;
     gap: 3rem;
+    text-align: center;
   }
   
   .community-visual {
@@ -124,5 +125,11 @@
   
   .community-description {
     max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .community-benefits {
+    align-items: center;
   }
 }
