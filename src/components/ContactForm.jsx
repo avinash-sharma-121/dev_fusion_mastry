@@ -43,7 +43,7 @@ const ContactForm = () => {
               </div>
               <div className="contact-detail-item">
                 <div className="contact-icon">▶</div>
-                <span>youtube.com/channel/UCe-tn8Fc3EN-g4qWaSJ_uIA</span>
+                <span>youtube.com/@DevFusionMastery</span>
               </div>
             </div>
           </div>
