@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import './ContactForm.css';
 
 const ContactForm = () => {
+  const formRef = useRef();
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -13,16 +16,25 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate API call for now since we don't have an endpoint
-    setTimeout(() => {
+    setError('');
+
+    emailjs.sendForm(
+      process.env.REACT_APP_EMAILJS_SERVICE_ID,
+      process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+      formRef.current,
+      process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+    )
+    .then(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
-      
-      // Reset success message after 5 seconds
       setTimeout(() => setIsSubmitted(false), 5000);
-    }, 1500);
+    })
+    .catch((err) => {
+      setIsSubmitting(false);
+      setError(`Failed: ${err?.text || err?.message || JSON.stringify(err)}`);
+      console.error('EmailJS error:', err);
+    });
   };
 
   return (
@@ -56,7 +68,7 @@ const ContactForm = () => {
                 <p>Thank you for reaching out. I'll get back to you soon.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="contact-form">
+              <form ref={formRef} onSubmit={handleSubmit} className="contact-form">
                 <div className="input-group">
                   <input 
                     type="text" 
@@ -97,6 +109,7 @@ const ContactForm = () => {
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
+                {error && <p style={{ color: '#ef4444', marginTop: '1rem', textAlign: 'center' }}>{error}</p>}
               </form>
             )}
           </div>
