@@ -25,7 +25,7 @@ const Community = () => {
                 <span>Interview Prep</span>
               </div>
             </div>
-            <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="btn btn-primary community-btn">
+            <a href="https://canary.discord.com/channels/1518215358698360944/1518215358698360947" target="_blank" rel="noopener noreferrer" className="btn btn-primary community-btn">
               Join Discord Server
             </a>
           </div>
