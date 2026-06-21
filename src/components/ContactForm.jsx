@@ -19,10 +19,10 @@ const ContactForm = () => {
     setError('');
 
     emailjs.sendForm(
-      process.env.REACT_APP_EMAILJS_PUBLIC_KEY,
       process.env.REACT_APP_EMAILJS_SERVICE_ID,
       process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-      formRef.current
+      formRef.current,
+      process.env.REACT_APP_EMAILJS_PUBLIC_KEY
     )
       .then(() => {
         setIsSubmitting(false);
