@@ -25,8 +25,9 @@ const Header = () => {
   return (
     <header className={`header ${scrolled ? 'header-scrolled glass-card' : ''}`}>
       <div className="container header-container">
-        <div className="logo">
-          <span className="text-gradient">DevFusion</span> Mastery
+        <div className="logo" style={{ display: 'flex', alignItems: 'center' }}>
+          <img src="/logo-dark.png" alt="DevFusion Mastery" className="logo-img logo-dark" style={{ height: '35px', objectFit: 'contain' }} />
+          <img src="/logo-light.png" alt="DevFusion Mastery" className="logo-img logo-light" style={{ height: '35px', objectFit: 'contain' }} />
         </div>
         
         <nav className={`nav ${isMobileMenuOpen ? 'nav-open' : ''}`}>

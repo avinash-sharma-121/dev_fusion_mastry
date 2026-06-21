@@ -207,3 +207,19 @@ h1, h2, h3, h4, h5, h6 {
 .animate-fade-in {
   animation: fadeIn 0.8s ease-out forwards;
 }
+
+/* Logo Theme Switching */
+.logo-light {
+  display: none !important;
+}
+.logo-dark {
+  display: block !important;
+}
+
+[data-theme="light"] .logo-light {
+  display: block !important;
+}
+[data-theme="light"] .logo-dark {
+  display: none !important;
+}
+

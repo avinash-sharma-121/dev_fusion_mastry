@@ -136,3 +136,107 @@ export const fetchChannelStats = async () => {
   }
   return null;
 };
+
+export const fetchPlaylistVideos = async (playlistName = 'Cloud & DevOps Projects') => {
+  let playlistId = 'PL1Diib8No4nVdkEyTd2ipsoPbnFHX4I0l'; // Default fallback ID for 'Cloud & DevOps Projects'
+  
+  if (API_KEY) {
+    try {
+      // 1. Fetch playlists to find the matching one by title
+      const playlistsResponse = await fetch(`https://www.googleapis.com/youtube/v3/playlists?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet&maxResults=50`);
+      if (playlistsResponse.ok) {
+        const playlistsData = await playlistsResponse.json();
+        const foundPlaylist = playlistsData.items?.find(
+          item => item.snippet?.title?.toLowerCase() === playlistName.toLowerCase()
+        );
+        if (foundPlaylist) {
+          playlistId = foundPlaylist.id;
+        }
+      }
+      
+      // 2. Fetch videos in that playlist
+      const response = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?key=${API_KEY}&playlistId=${playlistId}&part=snippet,contentDetails&maxResults=50`);
+      if (!response.ok) throw new Error('Playlist items fetch failed');
+      const data = await response.json();
+      
+      const mappedVideos = data.items.map(item => {
+        const description = item.snippet?.description || '';
+        const title = item.snippet?.title || '';
+        const videoId = item.snippet?.resourceId?.videoId;
+        
+        // Extract GitHub URL
+        const githubMatch = description.match(/https?:\/\/(?:www\.)?github\.com\/[^\s\n\r,()]+/i);
+        const githubUrl = githubMatch ? githubMatch[0] : null;
+        
+        // Extract Live Demo URL (e.g. "Live Demo: <url>", "Demo: <url>", or matching live urls other than channel links)
+        const demoMatch = description.match(/(?:Live Demo|Demo):\s*(https?:\/\/[^\s\n\r,()]+)/i);
+        let liveUrl = demoMatch ? demoMatch[0].replace(/(?:Live Demo|Demo):\s*/i, '') : null;
+        
+        // If liveUrl was not explicitly found using pattern, check if there are other websites linked
+        if (!liveUrl) {
+          const allUrls = description.match(/https?:\/\/[^\s\n\r,()]+/gi) || [];
+          // Find first URL that is not github or devfusionmastry or youtube
+          const fallbackUrl = allUrls.find(url => 
+            !url.includes('github.com') && 
+            !url.includes('youtube.com') && 
+            !url.includes('youtu.be')
+          );
+          if (fallbackUrl) {
+            liveUrl = fallbackUrl;
+          }
+        }
+
+        // Extract Tags (hashtags)
+        const hashTags = description.match(/#\w+/g) || [];
+        const tags = hashTags.map(tag => tag.substring(1)).slice(0, 4); // Limit to top 4 tags, strip '#'
+        
+        // Default tags if none found
+        const finalTags = tags.length > 0 ? tags : ['Cloud', 'DevOps', 'AWS'];
+        
+        return {
+          id: videoId || item.id,
+          title,
+          description: description.split('\n')[0] || 'Dynamic DevOps/Cloud project tutorial.', // Use first line or summary
+          fullDescription: description,
+          image: item.snippet?.thumbnails?.maxres?.url || 
+                 item.snippet?.thumbnails?.standard?.url || 
+                 item.snippet?.thumbnails?.high?.url || 
+                 item.snippet?.thumbnails?.medium?.url || 
+                 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80',
+          tags: finalTags,
+          githubUrl,
+          liveUrl,
+          videoId
+        };
+      });
+      return mappedVideos.reverse();
+    } catch (error) {
+      console.error('Error fetching playlist videos from API:', error);
+    }
+  }
+
+  // Fallback / Mock behavior if API key not present or fails
+  console.warn('Using mock data for playlist videos.');
+  return [
+    {
+      id: 'OmDCts9N5cc',
+      title: 'GitHub Actions CI/CD Project #2',
+      description: 'Automate your deployments with this end-to-end GitHub Actions CI/CD project to host a portfolio website on GitHub Pages.',
+      image: 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80',
+      tags: ['GitHub Actions', 'CI/CD', 'Web Hosting'],
+      githubUrl: 'https://github.com/avinash-sharma-121/portfolio_testing',
+      liveUrl: 'https://project2.devfusionmastry.xyz/',
+      videoId: 'OmDCts9N5cc'
+    },
+    {
+      id: 'TGKiJlpCFKo',
+      title: 'Serverless Three-Tier Architecture Project',
+      description: 'Deploy a Serverless Three-Tier Web Application on AWS using CloudFront, S3, API Gateway, Lambda, and DynamoDB.',
+      image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80',
+      tags: ['AWS', 'Serverless', 'Terraform'],
+      githubUrl: 'https://github.com/avinash-sharma-121/serverless-three-tier',
+      liveUrl: 'https://demo.devfusionmastry.xyz',
+      videoId: 'TGKiJlpCFKo'
+    }
+  ];
+};

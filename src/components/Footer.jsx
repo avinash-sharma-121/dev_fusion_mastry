@@ -5,8 +5,9 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="container footer-container">
-        <div className="footer-logo">
-          <span className="text-gradient">DevFusion</span> Mastery
+        <div className="footer-logo" style={{ display: 'flex', alignItems: 'center' }}>
+          <img src="/logo-dark.png" alt="DevFusion Mastery" className="logo-img logo-dark" style={{ height: '35px', objectFit: 'contain' }} />
+          <img src="/logo-light.png" alt="DevFusion Mastery" className="logo-img logo-light" style={{ height: '35px', objectFit: 'contain' }} />
         </div>
         <p className="footer-copyright">
           &copy; {new Date().getFullYear()} DevFusion Mastery. All rights reserved.
