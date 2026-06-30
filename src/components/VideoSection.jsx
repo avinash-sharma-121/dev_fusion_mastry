@@ -16,6 +16,43 @@ const VideoSection = () => {
     loadVideos();
   }, []);
 
+  useEffect(() => {
+    if (!videos || videos.length === 0) return;
+
+    // Retrieve or create the JSON-LD script tag in head
+    let script = document.getElementById('jsonld-video-schema');
+    if (!script) {
+      script = document.createElement('script');
+      script.id = 'jsonld-video-schema';
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@graph": videos.map((video) => ({
+        "@type": "VideoObject",
+        "name": video.snippet.title,
+        "description": video.snippet.description,
+        "thumbnailUrl": [
+          video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default?.url
+        ],
+        "uploadDate": video.snippet.publishedAt,
+        "embedUrl": `https://www.youtube.com/embed/${video.id.videoId}`,
+        "contentUrl": `https://www.youtube.com/watch?v=${video.id.videoId}`
+      }))
+    };
+
+    script.textContent = JSON.stringify(schemaData);
+
+    return () => {
+      const existingScript = document.getElementById('jsonld-video-schema');
+      if (existingScript) {
+        existingScript.remove();
+      }
+    };
+  }, [videos]);
+
   return (
     <section id="videos" className="section video-section">
       <div className="container">
