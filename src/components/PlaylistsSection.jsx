@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchPlaylists } from '../services/youtube';
 import ScrollReveal from './ScrollReveal';
+import { SkeletonGrid } from './SkeletonLoader';
 import './PlaylistsSection.css';
 
 const PlaylistsSection = () => {
@@ -27,7 +28,7 @@ const PlaylistsSection = () => {
         </ScrollReveal>
 
         {loading ? (
-          <div className="loading-state">Loading playlists...</div>
+          <SkeletonGrid count={3} className="playlists-grid" />
         ) : (
           <div className="playlists-grid">
             {playlists.map((playlist, index) => (

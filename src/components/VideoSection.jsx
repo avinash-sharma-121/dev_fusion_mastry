@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchLatestVideos } from '../services/youtube';
 import ScrollReveal from './ScrollReveal';
+import { SkeletonGrid } from './SkeletonLoader';
 import './VideoSection.css';
 
 const VideoSection = () => {
@@ -64,7 +65,7 @@ const VideoSection = () => {
         </ScrollReveal>
 
         {loading ? (
-          <div className="loading-state">Loading videos...</div>
+          <SkeletonGrid count={6} className="video-grid" />
         ) : (
           <div className="video-grid">
             {videos.map((video, index) => {

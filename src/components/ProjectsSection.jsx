@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchPlaylistVideos } from '../services/youtube';
 import ScrollReveal from './ScrollReveal';
+import { SkeletonGrid } from './SkeletonLoader';
 import './ProjectsSection.css';
 
 const ProjectsSection = () => {
@@ -32,9 +33,7 @@ const ProjectsSection = () => {
         </ScrollReveal>
 
         {loading ? (
-          <div className="loading-state" style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>
-            Loading projects...
-          </div>
+          <SkeletonGrid count={3} className="projects-grid" />
         ) : (
           <div className="projects-grid">
             {projects.map((project, index) => (
