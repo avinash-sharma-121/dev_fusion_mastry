@@ -1,4 +1,5 @@
 import React from 'react';
+import ScrollReveal from './ScrollReveal';
 import './Testimonials.css';
 
 const MOCK_TESTIMONIALS = [
@@ -32,30 +33,34 @@ const Testimonials = () => {
   return (
     <section id="testimonials" className="section testimonials-section">
       <div className="container">
-        <div className="section-header">
-          <h2 className="section-title">Success <span className="text-gradient">Stories</span></h2>
-          <p className="section-subtitle">Hear from engineers who cracked their dream Cloud & DevOps roles</p>
-        </div>
+        <ScrollReveal animation="fade-in">
+          <div className="section-header">
+            <h2 className="section-title">Success <span className="text-gradient">Stories</span></h2>
+            <p className="section-subtitle">Hear from engineers who cracked their dream Cloud & DevOps roles</p>
+          </div>
+        </ScrollReveal>
 
         <div className="testimonials-grid">
-          {MOCK_TESTIMONIALS.map((testimonial) => (
-            <div key={testimonial.id} className="testimonial-card glass-card">
-              <div className="quote-icon">"</div>
-              <p className="testimonial-text">{testimonial.text}</p>
-              
-              <div className="testimonial-author">
-                <img src={testimonial.avatar} alt={testimonial.name} className="author-avatar" />
-                <div className="author-info">
-                  <h4 className="author-name">{testimonial.name}</h4>
-                  <p className="author-role">{testimonial.role}</p>
-                  <div className="star-rating">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <span key={i}>⭐</span>
-                    ))}
+          {MOCK_TESTIMONIALS.map((testimonial, index) => (
+            <ScrollReveal key={testimonial.id} animation="slide-up" delay={index * 0.15}>
+              <div className="testimonial-card glass-card">
+                <div className="quote-icon">"</div>
+                <p className="testimonial-text">{testimonial.text}</p>
+                
+                <div className="testimonial-author">
+                  <img src={testimonial.avatar} alt={testimonial.name} className="author-avatar" />
+                  <div className="author-info">
+                    <h4 className="author-name">{testimonial.name}</h4>
+                    <p className="author-role">{testimonial.role}</p>
+                    <div className="star-rating">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <span key={i}>⭐</span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>

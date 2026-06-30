@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
+import ScrollReveal from './ScrollReveal';
 import './ContactForm.css';
 
 const ContactForm = () => {
@@ -41,7 +42,7 @@ const ContactForm = () => {
     <section id="contact" className="section contact-section">
       <div className="container">
         <div className="contact-wrapper">
-          <div className="contact-info">
+          <ScrollReveal animation="slide-right" className="contact-info">
             <h2 className="section-title">Let's <span className="text-gradient">Connect</span></h2>
             <p className="contact-description">
               Have a question, want to collaborate on a project, or just want to say hi?
@@ -74,9 +75,9 @@ const ContactForm = () => {
                 <span>linkedin.com/in/avinashksharma</span>
               </a>
             </div>
-          </div>
+          </ScrollReveal>
 
-          <div className="contact-form-container glass-card">
+          <ScrollReveal animation="slide-left" className="contact-form-container glass-card">
             {isSubmitted ? (
               <div className="success-message animate-fade-in">
                 <div className="success-icon">✓</div>
@@ -128,7 +129,7 @@ const ContactForm = () => {
                 {error && <p style={{ color: '#ef4444', marginTop: '1rem', textAlign: 'center' }}>{error}</p>}
               </form>
             )}
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
